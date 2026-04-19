@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alimuddin — Senior Software Engineer & Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#060d1a;
+    --surface:#0b1628;
+    --surface2:#0f1e35;
+    --border:#1a2e4a;
+    --teal:#00d4aa;
+    --blue:#3b82f6;
+    --gold:#f59e0b;
+    --text:#e2e8f0;
+    --muted:#7a92b0;
+    --glow:rgba(0,212,170,0.15);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'DM Sans',sans-serif;
+    font-size:15px;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events:none;z-index:0;opacity:.4;
+  }
+
+  /* ── GRID LINES ── */
+  body::after{
+    content:'';position:fixed;inset:0;
+    background-image:linear-gradient(rgba(0,212,170,.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,212,170,.03) 1px,transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;z-index:0;
+  }
+
+  /* ── NAV ── */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1rem 4rem;
+    background:rgba(6,13,26,.85);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo{
+    font-family:'Fira Code',monospace;
+    color:var(--teal);font-size:1rem;font-weight:600;
+    letter-spacing:.05em;
+  }
+  .nav-links{display:flex;gap:2rem;list-style:none;}
+  .nav-links a{
+    font-family:'Fira Code',monospace;
+    font-size:.78rem;color:var(--muted);
+    text-decoration:none;letter-spacing:.1em;text-transform:uppercase;
+    transition:color .3s;
+  }
+  .nav-links a:hover{color:var(--teal);}
+
+  /* ── HERO ── */
+  #hero{
+    min-height:100vh;display:flex;align-items:center;
+    padding:8rem 4rem 4rem;
+    position:relative;z-index:1;
+  }
+  .hero-content{max-width:900px;}
+  .hero-tag{
+    font-family:'Fira Code',monospace;
+    font-size:.8rem;color:var(--teal);
+    letter-spacing:.2em;text-transform:uppercase;
+    margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:.75rem;
+  }
+  .hero-tag::before{
+    content:'';display:block;width:2rem;height:1px;background:var(--teal);
+  }
+  h1.hero-name{
+    font-family:'Syne',sans-serif;
+    font-size:clamp(3.5rem,8vw,7rem);
+    font-weight:800;
+    line-height:1;
+    letter-spacing:-.02em;
+    margin-bottom:.5rem;
+    background:linear-gradient(135deg,#fff 30%,var(--teal) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:fadeUp .8s ease both;
+  }
+  .hero-title{
+    font-family:'Syne',sans-serif;
+    font-size:clamp(1.1rem,2.5vw,1.6rem);
+    font-weight:600;color:var(--blue);
+    margin-bottom:1.5rem;
+    animation:fadeUp .8s .15s ease both;
+  }
+  .hero-bio{
+    font-size:1rem;color:var(--muted);max-width:620px;
+    margin-bottom:2.5rem;
+    animation:fadeUp .8s .3s ease both;
+  }
+  .hero-contacts{
+    display:flex;flex-wrap:wrap;gap:1rem;
+    animation:fadeUp .8s .45s ease both;
+  }
+  .contact-chip{
+    display:flex;align-items:center;gap:.5rem;
+    padding:.5rem 1rem;
+    border:1px solid var(--border);
+    border-radius:2rem;
+    font-family:'Fira Code',monospace;
+    font-size:.75rem;color:var(--muted);
+    text-decoration:none;
+    background:var(--surface);
+    transition:all .3s;
+  }
+  .contact-chip:hover{border-color:var(--teal);color:var(--teal);background:var(--glow);}
+  .contact-chip svg{width:14px;height:14px;flex-shrink:0;}
+  .hero-cta{
+    margin-top:3rem;
+    display:flex;gap:1rem;flex-wrap:wrap;
+    animation:fadeUp .8s .6s ease both;
+  }
+  .btn-primary{
+    padding:.75rem 2rem;
+    background:var(--teal);color:#060d1a;
+    font-family:'Syne',sans-serif;font-weight:700;
+    font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;
+    border:none;border-radius:.25rem;cursor:pointer;
+    text-decoration:none;
+    transition:all .3s;
+    box-shadow:0 0 30px rgba(0,212,170,.3);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,212,170,.5);}
+  .btn-ghost{
+    padding:.75rem 2rem;
+    background:transparent;color:var(--text);
+    font-family:'Syne',sans-serif;font-weight:600;
+    font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;
+    border:1px solid var(--border);border-radius:.25rem;cursor:pointer;
+    text-decoration:none;transition:all .3s;
+  }
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);}
+
+  /* ── HERO STATS ── */
+  .hero-stats{
+    position:absolute;right:4rem;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:1.5rem;
+    animation:fadeLeft .8s .6s ease both;
+  }
+  .stat-item{text-align:right;}
+  .stat-num{
+    font-family:'Syne',sans-serif;font-size:2.5rem;
+    font-weight:800;color:var(--teal);line-height:1;
+  }
+  .stat-label{
+    font-family:'Fira Code',monospace;font-size:.7rem;
+    color:var(--muted);text-transform:uppercase;letter-spacing:.1em;
+  }
+
+  /* ── SECTION BASE ── */
+  section{padding:6rem 4rem;position:relative;z-index:1;}
+  .section-header{margin-bottom:3.5rem;}
+  .section-tag{
+    font-family:'Fira Code',monospace;
+    font-size:.75rem;color:var(--teal);
+    letter-spacing:.2em;text-transform:uppercase;
+    margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;
+  }
+  .section-tag::before{content:'//';opacity:.5;}
+  h2.section-title{
+    font-family:'Syne',sans-serif;font-size:2.5rem;
+    font-weight:800;letter-spacing:-.02em;
+    color:var(--text);
+  }
+  h2.section-title span{color:var(--teal);}
+
+  /* ── ABOUT ── */
+  #about{background:var(--surface);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+  .info-table{width:100%;}
+  .info-row{
+    display:flex;padding:.75rem 0;
+    border-bottom:1px solid var(--border);
+    gap:1rem;
+  }
+  .info-label{
+    font-family:'Fira Code',monospace;font-size:.75rem;
+    color:var(--muted);text-transform:uppercase;letter-spacing:.1em;
+    min-width:120px;flex-shrink:0;padding-top:.1rem;
+  }
+  .info-value{font-size:.9rem;color:var(--text);}
+  .badge-group{display:flex;flex-wrap:wrap;gap:.5rem;}
+  .badge{
+    padding:.25rem .75rem;
+    background:var(--glow);border:1px solid rgba(0,212,170,.25);
+    border-radius:.25rem;
+    font-family:'Fira Code',monospace;font-size:.72rem;color:var(--teal);
+  }
+  .badge.blue{
+    background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.25);color:var(--blue);
+  }
+  .badge.gold{
+    background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--gold);
+  }
+  .about-text p{
+    color:var(--muted);line-height:1.85;margin-bottom:1rem;font-size:.95rem;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience{}
+  .timeline{position:relative;padding-left:2rem;}
+  .timeline::before{
+    content:'';position:absolute;left:0;top:0;bottom:0;
+    width:1px;background:linear-gradient(to bottom,var(--teal),transparent);
+  }
+  .timeline-item{
+    position:relative;padding:0 0 3rem 2.5rem;
+  }
+  .timeline-item::before{
+    content:'';position:absolute;left:-6px;top:4px;
+    width:13px;height:13px;
+    border-radius:50%;
+    background:var(--bg);border:2px solid var(--teal);
+    box-shadow:0 0 12px rgba(0,212,170,.5);
+    transition:all .3s;
+  }
+  .timeline-item:hover::before{background:var(--teal);}
+  .timeline-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:.5rem;
+    padding:1.5rem;
+    transition:all .3s;
+  }
+  .timeline-card:hover{border-color:rgba(0,212,170,.3);transform:translateX(4px);}
+  .timeline-date{
+    font-family:'Fira Code',monospace;font-size:.72rem;
+    color:var(--teal);letter-spacing:.1em;margin-bottom:.5rem;
+  }
+  .timeline-role{
+    font-family:'Syne',sans-serif;font-size:1.1rem;
+    font-weight:700;color:var(--text);margin-bottom:.25rem;
+  }
+  .timeline-company{
+    font-size:.85rem;color:var(--blue);margin-bottom:.75rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .timeline-company::before{content:'▸';font-size:.7rem;}
+  .timeline-desc{
+    font-size:.85rem;color:var(--muted);line-height:1.7;
+  }
+  .timeline-desc ul{list-style:none;padding:0;}
+  .timeline-desc ul li{padding:.2rem 0;padding-left:1.2rem;position:relative;}
+  .timeline-desc ul li::before{content:'→';position:absolute;left:0;color:var(--teal);font-size:.75rem;}
+  .duration-chip{
+    display:inline-block;padding:.2rem .7rem;
+    background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);
+    border-radius:2rem;font-family:'Fira Code',monospace;font-size:.68rem;
+    color:var(--blue);margin-left:.75rem;
+  }
+
+  /* ── EDUCATION ── */
+  #education{background:var(--surface);}
+  .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .edu-card{
+    background:var(--surface2);
+    border:1px solid var(--border);border-radius:.5rem;padding:1.5rem;
+    transition:all .3s;position:relative;overflow:hidden;
+  }
+  .edu-card::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,var(--glow),transparent);
+    opacity:0;transition:opacity .3s;
+  }
+  .edu-card:hover{border-color:rgba(0,212,170,.3);}
+  .edu-card:hover::before{opacity:1;}
+  .edu-year{
+    font-family:'Fira Code',monospace;font-size:.72rem;
+    color:var(--teal);letter-spacing:.1em;margin-bottom:.75rem;
+  }
+  .edu-degree{
+    font-family:'Syne',sans-serif;font-size:1rem;
+    font-weight:700;color:var(--text);margin-bottom:.25rem;
+  }
+  .edu-institute{font-size:.85rem;color:var(--blue);margin-bottom:.75rem;}
+  .edu-result{
+    font-family:'Fira Code',monospace;font-size:.8rem;color:var(--gold);
+  }
+
+  /* ── TRAINING ── */
+  .training-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem;}
+  .training-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:.5rem;padding:1.25rem;
+    transition:all .3s;
+  }
+  .training-card:hover{border-color:rgba(0,212,170,.3);}
+  .training-title{
+    font-family:'Syne',sans-serif;font-size:.95rem;
+    font-weight:700;color:var(--text);margin-bottom:.5rem;
+  }
+  .training-meta{font-family:'Fira Code',monospace;font-size:.7rem;color:var(--muted);}
+
+  /* ── SKILLS ── */
+  #skills{background:linear-gradient(135deg,var(--bg),var(--surface));}
+  .skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+  .skill-group{margin-bottom:2rem;}
+  .skill-group-title{
+    font-family:'Fira Code',monospace;font-size:.75rem;
+    color:var(--teal);letter-spacing:.15em;text-transform:uppercase;
+    margin-bottom:1rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .skill-group-title::before{content:'$';color:var(--muted);}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:.5rem;}
+  .skill-tag{
+    padding:.35rem .85rem;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:.25rem;
+    font-family:'Fira Code',monospace;
+    font-size:.75rem;color:var(--text);
+    transition:all .3s;
+    cursor:default;
+  }
+  .skill-tag:hover{border-color:var(--teal);color:var(--teal);background:var(--glow);}
+  .skill-bars{display:flex;flex-direction:column;gap:1.25rem;}
+  .skill-bar-item{}
+  .skill-bar-header{
+    display:flex;justify-content:space-between;
+    margin-bottom:.35rem;
+  }
+  .skill-bar-name{font-size:.85rem;color:var(--text);font-weight:500;}
+  .skill-bar-pct{
+    font-family:'Fira Code',monospace;font-size:.72rem;color:var(--teal);
+  }
+  .skill-bar-track{
+    height:4px;background:var(--border);border-radius:2px;overflow:hidden;
+  }
+  .skill-bar-fill{
+    height:100%;border-radius:2px;
+    background:linear-gradient(90deg,var(--teal),var(--blue));
+    animation:barGrow 1.2s ease both;
+    transform-origin:left;
+  }
+
+  /* ── CERTIFICATIONS ── */
+  #certifications{background:var(--surface);}
+  .cert-card{
+    display:flex;align-items:center;gap:1.5rem;
+    background:var(--surface2);border:1px solid var(--border);
+    border-radius:.5rem;padding:1.5rem;
+    max-width:600px;transition:all .3s;
+  }
+  .cert-card:hover{border-color:rgba(245,158,11,.4);}
+  .cert-icon{
+    width:48px;height:48px;border-radius:50%;
+    background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;flex-shrink:0;
+  }
+  .cert-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.25rem;}
+  .cert-meta{font-family:'Fira Code',monospace;font-size:.72rem;color:var(--muted);}
+
+  /* ── REFERENCES ── */
+  #references{}
+  .ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .ref-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:.5rem;padding:1.5rem;
+    transition:all .3s;
+  }
+  .ref-card:hover{border-color:rgba(0,212,170,.3);}
+  .ref-name{
+    font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .ref-role{font-size:.85rem;color:var(--blue);margin-bottom:.75rem;}
+  .ref-info{font-family:'Fira Code',monospace;font-size:.75rem;color:var(--muted);line-height:1.8;}
+  .ref-type{
+    display:inline-block;margin-top:.75rem;
+    padding:.25rem .75rem;border-radius:2rem;
+    font-family:'Fira Code',monospace;font-size:.68rem;
+  }
+  .ref-type.academic{background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.25);color:var(--teal);}
+  .ref-type.professional{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:var(--blue);}
+
+  /* ── FOOTER ── */
+  footer{
+    background:var(--surface);border-top:1px solid var(--border);
+    padding:3rem 4rem;z-index:1;position:relative;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+  }
+  .footer-brand{
+    font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;
+    color:var(--teal);
+  }
+  .footer-copy{
+    font-family:'Fira Code',monospace;font-size:.72rem;color:var(--muted);
+  }
+  .footer-links{display:flex;gap:1.5rem;}
+  .footer-links a{
+    font-family:'Fira Code',monospace;font-size:.72rem;
+    color:var(--muted);text-decoration:none;transition:color .3s;
+  }
+  .footer-links a:hover{color:var(--teal);}
+
+  /* ── DIVIDER ── */
+  .divider{
+    height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);
+    margin:0 4rem;
+  }
+
+  /* ── DECLARATION ── */
+  .declaration{
+    padding:2rem 4rem;
+    font-family:'Fira Code',monospace;font-size:.8rem;color:var(--muted);
+    text-align:center;font-style:italic;z-index:1;position:relative;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes fadeLeft{
+    from{opacity:0;transform:translate(20px,-50%);}
+    to{opacity:1;transform:translate(0,-50%);}
+  }
+  @keyframes barGrow{
+    from{transform:scaleX(0);}
+    to{transform:scaleX(1);}
+  }
+  .reveal{
+    opacity:0;transform:translateY(24px);
+    transition:opacity .7s ease,transform .7s ease;
+  }
+  .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar{width:5px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--teal);}
+
+  @media(max-width:900px){
+    nav{padding:1rem 1.5rem;}
+    .nav-links{display:none;}
+    #hero{padding:6rem 1.5rem 3rem;flex-direction:column;}
+    .hero-stats{position:static;transform:none;flex-direction:row;flex-wrap:wrap;gap:1.5rem;margin-top:2rem;}
+    section{padding:4rem 1.5rem;}
+    .about-grid,.edu-grid,.skills-layout,.ref-grid{grid-template-columns:1fr;}
+    .training-grid{grid-template-columns:1fr;}
+    footer{padding:2rem 1.5rem;flex-direction:column;text-align:center;}
+    .divider{margin:0 1.5rem;}
+    .declaration{padding:1.5rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">&lt;alimuddin /&gt;</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Senior Software Engineer & Manager</div>
+    <h1 class="hero-name">ALIMUDDIN</h1>
+    <div class="hero-title">.NET Architect · System Analyst · Technical Lead</div>
+    <p class="hero-bio">
+      12+ years of experience designing and delivering enterprise-grade software systems — 
+      from hospital management platforms to large-scale ERP solutions across Bangladesh's 
+      leading conglomerates.
+    </p>
+    <div class="hero-contacts">
+      <a class="contact-chip" href="mailto:alim.pust89@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        alim.pust89@gmail.com
+      </a>
+      <a class="contact-chip" href="tel:+8801737739822">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.28-1.28a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +88 01737739822
+      </a>
+      <a class="contact-chip" href="https://linkedin.com/in/alimuddin-48a82477" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin/alimuddin
+      </a>
+      <a class="contact-chip" href="https://github.com/alim89" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        github/alim89
+      </a>
+      <span class="contact-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Dhaka, Bangladesh
+      </span>
+    </div>
+    <div class="hero-cta">
+      <a href="mailto:alim.pust89@gmail.com" class="btn-primary">Hire Me</a>
+      <a href="#experience" class="btn-ghost">View Experience</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Years Exp</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Roles Held</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">MSc</div>
+      <div class="stat-label">CSE — 3.65 GPA</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Technologies</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="section-tag">Personal Information</div>
+    <h2 class="section-title">About <span>Me</span></h2>
+  </div>
+  <div class="about-grid">
+    <div class="reveal">
+      <table class="info-table">
+        <tr class="info-row"><td class="info-label">Full Name</td><td class="info-value">Alimuddin</td></tr>
+        <tr class="info-row"><td class="info-label">Date of Birth</td><td class="info-value">11 October 1990</td></tr>
+        <tr class="info-row"><td class="info-label">Gender</td><td class="info-value">Male</td></tr>
+        <tr class="info-row"><td class="info-label">Marital Status</td><td class="info-value">Married</td></tr>
+        <tr class="info-row"><td class="info-label">Nationality</td><td class="info-value">Bangladeshi</td></tr>
+        <tr class="info-row"><td class="info-label">Religion</td><td class="info-value">Islam</td></tr>
+        <tr class="info-row"><td class="info-label">Blood Group</td><td class="info-value"><span class="badge gold">A+</span></td></tr>
+        <tr class="info-row"><td class="info-label">NID</td><td class="info-value" style="font-family:'Fira Code',monospace;font-size:.8rem;">19904112325000172</td></tr>
+        <tr class="info-row"><td class="info-label">Father</td><td class="info-value">Akbar Ali</td></tr>
+        <tr class="info-row"><td class="info-label">Mother</td><td class="info-value">Kulsum</td></tr>
+        <tr class="info-row"><td class="info-label">Phone</td><td class="info-value"><a href="tel:+8801737739822" style="color:var(--teal);text-decoration:none;font-family:'Fira Code',monospace;font-size:.85rem;">01737739822</a></td></tr>
+        <tr class="info-row"><td class="info-label">Email</td><td class="info-value"><a href="mailto:alim.pust89@gmail.com" style="color:var(--teal);text-decoration:none;">alim.pust89@gmail.com</a></td></tr>
+        <tr class="info-row"><td class="info-label">Current Addr</td><td class="info-value" style="font-size:.85rem;">100, Saratgupta Rd, Narinda, Dhaka-1100<br>Gulshan Model Town, Gulshan, Dhaka 1212</td></tr>
+        <tr class="info-row"><td class="info-label">Permanent</td><td class="info-value" style="font-size:.85rem;">Digdana-7420, Jhikorgacha, Jessore</td></tr>
+      </table>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="about-text">
+        <p>
+          I am a dedicated Software Engineer and Manager with over 12 years of hands-on 
+          experience in enterprise application development. My expertise spans the full 
+          software development lifecycle — from requirements analysis and architectural 
+          design to implementation, testing, and delivery.
+        </p>
+        <p>
+          Currently serving at Asgar Ali Hospital (City Group) where I oversee HRMS, 
+          PayRoll, IPD/OPD, Accounts, MIS, Pharmacy, and Medical College software 
+          systems — driving digital transformation across one of Bangladesh's leading 
+          healthcare institutions.
+        </p>
+        <p>
+          Previously spent nearly 10 years at Nitol Niloy Group / TATA Group, progressing 
+          from Junior Programmer to Manager, building and maintaining mission-critical 
+          systems including CRM, Sales, Vehicle Management, and Microservices platforms.
+        </p>
+      </div>
+      <div style="margin-top:2rem;">
+        <div class="skill-group-title">Career Preferences</div>
+        <div class="info-row"><td class="info-label">Looking For</td></div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem;">
+          <div class="info-row" style="border:none;padding:.4rem 0;"><span class="info-label" style="font-size:.75rem;">Job Type</span><span>Mid Level — IT/Telecommunication</span></div>
+          <div class="info-row" style="border:none;padding:.4rem 0;"><span class="info-label" style="font-size:.75rem;">Present CTC</span><span style="font-family:'Fira Code',monospace;color:var(--teal);">BDT 115,000/mo</span></div>
+          <div class="info-row" style="border:none;padding:.4rem 0;"><span class="info-label" style="font-size:.75rem;">Expected</span><span style="font-family:'Fira Code',monospace;color:var(--gold);">BDT 140,000/mo</span></div>
+          <div class="info-row" style="border:none;padding:.4rem 0;"><span class="info-label" style="font-size:.75rem;">Countries</span>
+            <div class="badge-group">
+              <span class="badge">🇦🇺 Australia</span>
+              <span class="badge">🇨🇦 Canada</span>
+              <span class="badge">🇯🇵 Japan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <div class="section-tag">Career History</div>
+    <h2 class="section-title">Work <span>Experience</span></h2>
+    <p style="color:var(--muted);margin-top:.5rem;font-family:'Fira Code',monospace;font-size:.8rem;">12+ Years · 8 Roles · Enterprise Scale</p>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Jan 2024 — Present</div>
+        <div class="timeline-role">Manager (Senior Software Engineer) <span class="duration-chip">Current</span></div>
+        <div class="timeline-company">Asgar Ali Hospital — A Concern of City Group | Dhaka</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Software Development: system specification, planning, design, implementation and security</li>
+            <li>Responsible for HRMS, PayRoll, IPD, OPD, Accounts, MIS, CAFE, Store, Pharmacy, Parking, Medical College overall software processes</li>
+            <li>Leadership, communication, problem-solving, time management, collaboration, conflict resolution, mentoring, decision-making, critical thinking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Jul 2021 — Jan 2024</div>
+        <div class="timeline-role">Manager (Senior Software Engineer) <span class="duration-chip">2.6 yrs</span></div>
+        <div class="timeline-company">NITOL NILOY GROUP / TATA GROUP | Dhaka-1212</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Programme & Project Planning: requirement analysis, architectural analysis, business analysis with database design</li>
+            <li>Application Development Module Modification, UI Design, Coding, Testing & Debugging</li>
+            <li>Project Management: system completion timely, user training & support</li>
+            <li>Database Analysis, design, stored procedures, SQL queries, views, triggers (SQL Server)</li>
+            <li>Responsible for: NITS-CRM, Sales System, Machinery's System (Hero), Appraisal System, Inventory Management, Nitol Bay Resort, Vehicle Management System, Health Wellness Program, Microservices</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Jul 2018 — Jul 2021</div>
+        <div class="timeline-role">Assistant Manager (Senior Software Engineer) <span class="duration-chip">3 yrs</span></div>
+        <div class="timeline-company">NITOL NILOY GROUP / TATA GROUP | Dhaka-1212</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Application development, requirement analysis, architectural analysis, testing & debugging</li>
+            <li>UI design, coding, database design, stored procedures, SQL queries, views, triggers</li>
+            <li>Defects/bugs handling; transforming business requirements into detailed test scenarios</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Jul 2016 — Jul 2018</div>
+        <div class="timeline-role">Sr. Executive (Software Engineer) <span class="duration-chip">2 yrs</span></div>
+        <div class="timeline-company">NITOL NILOY GROUP / TATA GROUP | Dhaka-1212</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>C# Programming, ADO.NET, ASP.NET, LINQ, AJAX, jQuery, CSS, MVC Framework</li>
+            <li>Crystal Report, SQL Server 2010, stored procedures, DTS, Cursor, Trigger</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Jul 2015 — Jul 2016</div>
+        <div class="timeline-role">Executive (Software Engineer) <span class="duration-chip">1 yr</span></div>
+        <div class="timeline-company">NITOL NILOY GROUP / TATA GROUP | Dhaka-1212</div>
+        <div class="timeline-desc">C# Programming, ADO.NET, ASP.NET, LINQ, AJAX, jQuery, CSS, MVC Framework, Crystal Report, SQL Server 2010.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Nov 2014 — Jul 2015</div>
+        <div class="timeline-role">Sr. Officer (Jr. Software Engineer) <span class="duration-chip">8 months</span></div>
+        <div class="timeline-company">NITOL NILOY GROUP / TATA GROUP | Dhaka-1212</div>
+        <div class="timeline-desc">C# Programming, ADO.NET, ASP.NET, LINQ, AJAX, jQuery, CSS, MVC Framework, Crystal Report, SQL Server 2010.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">May 2014 — Nov 2014</div>
+        <div class="timeline-role">Officer (Jr. Software Engineer) <span class="duration-chip">6 months</span></div>
+        <div class="timeline-company">NITOL NILOY GROUP / TATA GROUP | Dhaka-1212</div>
+        <div class="timeline-desc">C# Programming, ADO.NET, ASP.NET, LINQ, AJAX, jQuery, CSS, MVC Framework, Crystal Report, SQL Server 2010.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Feb 2014 — Apr 2014</div>
+        <div class="timeline-role">Programmer (.NET) <span class="duration-chip">2 months</span></div>
+        <div class="timeline-company">JBRSOFT.COM | Dhaka-1229</div>
+        <div class="timeline-desc">Code, test, and troubleshoot programs; maintain and modify existing programs; write new program code per specifications; analyze program performance; write and maintain programming documentation.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal">
+    <div class="section-tag">Academic & Training</div>
+    <h2 class="section-title">Education & <span>Qualifications</span></h2>
+  </div>
+
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-year">2021 – 2023</div>
+      <div class="edu-degree">Master of Science in Computer Science & Engineering</div>
+      <div class="edu-institute">Jagannath University, Bangladesh</div>
+      <div class="edu-result">GPA: 3.65 / 4.0 · Achievement: Success</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2008 – 2012</div>
+      <div class="edu-degree">Bachelor of Engineering — Computer Science & Engineering</div>
+      <div class="edu-institute">Pabna University of Science and Technology, Bangladesh</div>
+      <div class="edu-result">GPA: 3.46 / 4.0 · Successfully Completed</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2006 – 2008</div>
+      <div class="edu-degree">Higher Secondary Certificate (HSC) — Science</div>
+      <div class="edu-institute">Bankra Degree College, Bangladesh</div>
+      <div class="edu-result">Result: 4.00 / 5.00</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2004 – 2006</div>
+      <div class="edu-degree">Secondary School Certificate (SSC) — Science</div>
+      <div class="edu-institute">Digdana Khasal Nagar High School, Bangladesh</div>
+      <div class="edu-result">Result: 4.81 / 5.00</div>
+    </div>
+  </div>
+
+  <div class="section-header reveal" style="margin-top:3.5rem;margin-bottom:0;">
+    <div class="section-tag">Professional Training</div>
+    <h2 class="section-title" style="font-size:1.75rem;">Training <span>Courses</span></h2>
+  </div>
+  <div class="training-grid reveal">
+    <div class="training-card">
+      <div class="training-title">Oracle Database Administration I</div>
+      <div class="training-meta">Fundamental SQL · 2015 · 3 Months<br>IBCS-PRIMAX Software (BD) Ltd. | Dhanmondi</div>
+    </div>
+    <div class="training-card">
+      <div class="training-title">Oracle Database Administration II</div>
+      <div class="training-meta">Database Administration · 2015 · 3 Months<br>IBCS-PRIMAX Software (BD) Ltd. | Dhanmondi</div>
+    </div>
+    <div class="training-card">
+      <div class="training-title">ASP.NET using C# and SQL Server</div>
+      <div class="training-meta">C#, ADO.NET, MVC, Crystal Report · 2014 · 4 Months<br>IBCS-PRIMAX Software (BD) Ltd. | Dhanmondi</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <div class="section-tag">Technical Expertise</div>
+    <h2 class="section-title">Skills & <span>Technologies</span></h2>
+  </div>
+  <div class="skills-layout">
+    <div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">C#</span>
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">PL/SQL</span>
+          <span class="skill-tag">XML</span>
+        </div>
+      </div>
+      <div class="skill-group reveal" style="transition-delay:.1s">
+        <div class="skill-group-title">Frameworks</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ASP.NET</span>
+          <span class="skill-tag">ASP.NET MVC</span>
+          <span class="skill-tag">.NET Core</span>
+          <span class="skill-tag">ADO.NET</span>
+          <span class="skill-tag">Entity Framework</span>
+          <span class="skill-tag">Angular</span>
+          <span class="skill-tag">jQuery</span>
+          <span class="skill-tag">Web API</span>
+          <span class="skill-tag">Web Service</span>
+          <span class="skill-tag">AJAX</span>
+        </div>
+      </div>
+      <div class="skill-group reveal" style="transition-delay:.2s">
+        <div class="skill-group-title">Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">MS SQL Server</span>
+          <span class="skill-tag">Oracle</span>
+          <span class="skill-tag">PL/SQL</span>
+          <span class="skill-tag">Stored Procedures</span>
+          <span class="skill-tag">Views</span>
+          <span class="skill-tag">Triggers</span>
+          <span class="skill-tag">Cursors</span>
+          <span class="skill-tag">DTS</span>
+        </div>
+      </div>
+      <div class="skill-group reveal" style="transition-delay:.3s">
+        <div class="skill-group-title">Frontend & Reporting</div>
+        <div class="skill-tags">
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">JSON</span>
+          <span class="skill-tag">RDLC Report</span>
+          <span class="skill-tag">Crystal Report</span>
+          <span class="skill-tag">SSRS</span>
+        </div>
+      </div>
+      <div class="skill-group reveal" style="transition-delay:.35s">
+        <div class="skill-group-title">Methodology & Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Agile</span>
+          <span class="skill-tag">Microservices</span>
+          <span class="skill-tag">Software Architecture</span>
+          <span class="skill-tag">OOP</span>
+          <span class="skill-tag">Visual Studio</span>
+          <span class="skill-tag">Linux Admin</span>
+          <span class="skill-tag">Oracle Admin</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.2s">
+      <div style="margin-bottom:1rem;"><div class="skill-group-title">Proficiency Levels</div></div>
+      <div class="skill-bars">
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">C# / .NET Ecosystem</span><span class="skill-bar-pct">95%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">MS SQL Server / Oracle</span><span class="skill-bar-pct">92%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">ASP.NET MVC / Web API</span><span class="skill-bar-pct">90%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Software Architecture</span><span class="skill-bar-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Project Management</span><span class="skill-bar-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Angular / JavaScript</span><span class="skill-bar-pct">78%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Microservices / Agile</span><span class="skill-bar-pct">82%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%"></div></div>
+        </div>
+      </div>
+      <div style="margin-top:2.5rem;">
+        <div class="skill-group-title">Languages</div>
+        <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;">
+          <div style="text-align:center;padding:1rem;background:var(--surface);border:1px solid var(--border);border-radius:.5rem;min-width:100px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--teal);">Native</div>
+            <div style="font-size:.8rem;color:var(--muted);margin-top:.25rem;">Bangla</div>
+            <div style="font-family:'Fira Code',monospace;font-size:.65rem;color:var(--border);margin-top:.25rem;">R/W/S: High</div>
+          </div>
+          <div style="text-align:center;padding:1rem;background:var(--surface);border:1px solid var(--border);border-radius:.5rem;min-width:100px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--blue);">Proficient</div>
+            <div style="font-size:.8rem;color:var(--muted);margin-top:.25rem;">English</div>
+            <div style="font-family:'Fira Code',monospace;font-size:.65rem;color:var(--border);margin-top:.25rem;">R/W/S: High</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" style="padding-bottom:3rem;">
+  <div class="section-header reveal">
+    <div class="section-tag">Achievements</div>
+    <h2 class="section-title">Certifi<span>cations</span></h2>
+  </div>
+  <div class="cert-card reveal">
+    <div class="cert-icon">🏆</div>
+    <div>
+      <div class="cert-name">Business Communication Skills and Client Management</div>
+      <div class="cert-meta">Nitol Motors Ltd (Arranged by HRD) · Jan 2016</div>
+    </div>
+  </div>
+  <div style="margin-top:1rem;padding:.75rem 1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:.5rem;max-width:600px;font-family:'Fira Code',monospace;font-size:.75rem;color:var(--muted);" class="reveal">
+    <span style="color:var(--teal);">/*</span> Extra-Curricular Activities: Programming, Gaming, Cricket, Tour <span style="color:var(--teal);">*/</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REFERENCES -->
+<section id="references">
+  <div class="section-header reveal">
+    <div class="section-tag">Professional Network</div>
+    <h2 class="section-title">Refer<span>ences</span></h2>
+  </div>
+  <div class="ref-grid">
+    <div class="ref-card reveal">
+      <div class="ref-name">Zulfiker Mahmud</div>
+      <div class="ref-role">Professor — Jagannath University</div>
+      <div class="ref-info">
+        📧 zulfikerm@yahoo.com<br>
+        📱 +88 01721-191718
+      </div>
+      <span class="ref-type academic">Academic</span>
+    </div>
+    <div class="ref-card reveal" style="transition-delay:.1s">
+      <div class="ref-name">Sanat Mondal</div>
+      <div class="ref-role">Senior Manager — Nitol Niloy Group</div>
+      <div class="ref-info">
+        📧 cse.sanat@gmail.com<br>
+        📱 +88 01712-995265
+      </div>
+      <span class="ref-type professional">Professional</span>
+    </div>
+  </div>
+</section>
+
+<div class="declaration">
+  "I hereby declare that the information provided in this portfolio is true and accurate to the best of my knowledge." — Alimuddin
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">ALIMUDDIN</div>
+  <div class="footer-copy">Senior Software Engineer &amp; Manager · Dhaka, Bangladesh · 2026</div>
+  <div class="footer-links">
+    <a href="https://linkedin.com/in/alimuddin-48a82477" target="_blank">LinkedIn</a>
+    <a href="https://github.com/alim89" target="_blank">GitHub</a>
+    <a href="mailto:alim.pust89@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}
+    });
+  },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  reveals.forEach(el=>observer.observe(el));
+
+  // Typed effect on hero tag
+  const tag = document.querySelector('.hero-tag');
+  const text = tag.textContent;
+  tag.textContent='';
+  let i=0;
+  const type=()=>{
+    if(i<text.length){tag.textContent+=text[i++];setTimeout(type,40);}
+  };
+  setTimeout(type,400);
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',()=>{
+    let current='';
+    sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)current=s.id;});
+    navLinks.forEach(a=>{
+      a.style.color = a.getAttribute('href')==='#'+current ? 'var(--teal)' : '';
+    });
+  });
+</script>
+</body>
+</html>
